@@ -58,7 +58,7 @@ endmacro()
 
 find_package(console_bridge QUIET)
 
-if(NOT console_bridge_FOUND OR "${console_bridge_VERSION}" VERSION_LESS 0.4.1)
+if(NOT console_bridge_FOUND OR "${console_bridge_VERSION}" VERSION_LESS 0.4.3)
   build_console_bridge()
 endif()
 
