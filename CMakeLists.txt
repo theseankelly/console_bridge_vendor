@@ -4,6 +4,14 @@ project(console_bridge_vendor)
 
 find_package(ament_cmake REQUIRED)
 
+option(FORCE_BUILD_VENDOR_PKG
+  "Build console_bridge from source, even if system-installed package is available"
+  OFF)
+
+if(NOT FORCE_BUILD_VENDOR_PKG)
+  find_package(console_bridge QUIET)
+endif()
+
 macro(build_console_bridge)
   set(extra_cmake_args)
   if(DEFINED CMAKE_BUILD_TYPE)
@@ -34,7 +42,12 @@ macro(build_console_bridge)
         list(APPEND extra_cmake_args "-DANDROID_TOOLCHAIN_NAME=${ANDROID_TOOLCHAIN_NAME}")
       endif()
     endif()
+  else()
+    list(APPEND extra_cmake_args "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+    list(APPEND extra_cmake_args "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
   endif()
+  list(APPEND extra_cmake_args "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+
   include(ExternalProject)
   # Get console_bridge 0.4.1
   ExternalProject_Add(console_bridge-0.4.1
@@ -55,8 +68,6 @@ macro(build_console_bridge)
       ${CMAKE_INSTALL_PREFIX}
   )
 endmacro()
-
-find_package(console_bridge QUIET)
 
 if(NOT console_bridge_FOUND OR "${console_bridge_VERSION}" VERSION_LESS 0.4.1)
   build_console_bridge()
