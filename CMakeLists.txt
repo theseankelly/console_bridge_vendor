@@ -17,6 +17,9 @@ macro(build_console_bridge)
   if(DEFINED CMAKE_BUILD_TYPE)
     list(APPEND extra_cmake_args -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
   endif()
+  if(DEFINED BUILD_TESTING)
+    list(APPEND extra_cmake_args -DBUILD_TESTING=${BUILD_TESTING})
+  endif()
   if(DEFINED CMAKE_TOOLCHAIN_FILE)
     list(APPEND extra_cmake_args "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
     if(ANDROID)
@@ -51,9 +54,8 @@ macro(build_console_bridge)
   include(ExternalProject)
   # Get console_bridge 0.4.1
   ExternalProject_Add(console_bridge-0.4.1
-    URL https://github.com/ros/console_bridge/archive/0.4.1.tar.gz
-    URL_MD5 6bb0f640db1712cf2277e7923e7bab68
-    TIMEOUT 600
+    GIT_REPOSITORY https://github.com/theseankelly/console_bridge.git
+    GIT_TAG dashing-o3d3xx
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_install
       ${extra_cmake_args}
