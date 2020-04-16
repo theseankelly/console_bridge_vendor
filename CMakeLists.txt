@@ -55,7 +55,7 @@ macro(build_console_bridge)
   # Get console_bridge 0.4.1
   ExternalProject_Add(console_bridge-0.4.1
     GIT_REPOSITORY https://github.com/theseankelly/console_bridge.git
-    GIT_TAG dashing-o3d3xx
+    GIT_TAG eloquent-o3d3xx
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_install
       ${extra_cmake_args}
